@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Documentation files
+JUEJIN_ARTICLE.md
+GITHUB_GUIDE.md
+MAIANBAODUO_GUIDE.md
+MAIANBAODUO_GUIDE.md
+MAIANBAODUO_GUIDE.md 
