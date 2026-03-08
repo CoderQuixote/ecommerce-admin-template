@@ -1,0 +1,61 @@
+.sidebar {
+  width: 200px;
+  min-height: 100vh;
+  background: #001529;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  background: #002140;
+}
+
+.trigger {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #001529;
+}
+
+.trigger:hover {
+  background: #002140;
+}
+
+.header {
+  height: 64px;
+  padding: 0 24px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  left: 200px;
+  right: 0;
+  top: 0;
+  z-index: 99;
+}
+
+.header-left h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
