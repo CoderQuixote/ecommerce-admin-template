@@ -151,6 +151,7 @@ MIT License
 
 ---
 
+**GitHub**: https://github.com/CoderQuixote/ecommerce-admin-template
 **开发时间**: 1 天（框架）+ 持续完善
 **当前版本**: v1.0.0
 **最后更新**: 2026-03-08

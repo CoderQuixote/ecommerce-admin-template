@@ -1,8 +1,18 @@
 import { Avatar, Dropdown, Space } from 'antd';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, MoonOutlined } from '@ant-design/icons';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onToggleTheme: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onToggleTheme }) => {
   const items = [
+    {
+      key: 'theme',
+      icon: <MoonOutlined />,
+      label: '切换暗黑模式',
+      onClick: onToggleTheme,
+    },
     {
       key: 'profile',
       icon: <UserOutlined />,

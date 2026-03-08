@@ -1,9 +1,32 @@
-import { Table, Tag, Space, Button, Input, Select, Card } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Tag, Space, Button, Input, Select, Card, message } from 'antd';
+import { PlusOutlined, SearchOutlined, DownloadOutlined } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const { Option } = Select;
 
 const ProductList: React.FC = () => {
+  // 导出 Excel 功能
+  const handleExport = () => {
+    const exportData = data.map((item: any) => ({
+      'Product ID': item.id,
+      'Name': item.name,
+      'Category': item.category,
+      'Price': item.price,
+      'Stock': item.stock,
+      'Status': item.status === 1 ? 'On Sale' : 'Off Sale',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '商品列表');
+    
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(blob, `商品列表_${new Date().toISOString().split('T')[0]}.xlsx`);
+    
+    message.success('导出成功！');
+  };
   const columns = [
     { title: '商品 ID', dataIndex: 'id', key: 'id', width: 100 },
     { 
@@ -53,7 +76,17 @@ const ProductList: React.FC = () => {
 
   return (
     <div>
-      <Card>
+      <Card 
+        extra={
+          <Button 
+            type="primary" 
+            icon={<DownloadOutlined />} 
+            onClick={handleExport}
+          >
+            导出 Excel
+          </Button>
+        }
+      >
         <Space style={{ marginBottom: 16 }}>
           <Input placeholder="搜索商品" prefix={<SearchOutlined />} style={{ width: 200 }} />
           <Select placeholder="商品分类" style={{ width: 150 }}>

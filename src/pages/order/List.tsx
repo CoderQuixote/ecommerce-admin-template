@@ -1,10 +1,35 @@
-import { Table, Tag, Space, Button, Card, Descriptions, Modal } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
+import { Table, Tag, Space, Button, Card, Descriptions, Modal, message } from 'antd';
+import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const OrderList: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // 导出 Excel 功能
+  const handleExport = () => {
+    const exportData = data.map((item: any) => ({
+      'Order ID': item.id,
+      'User': item.username,
+      'Phone': item.phone,
+      'Products': item.products.join(','),
+      'Amount': item.amount,
+      'Status': item.status,
+      'Created At': item.createdAt,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '订单列表');
+    
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(blob, `订单列表_${new Date().toISOString().split('T')[0]}.xlsx`);
+    
+    message.success('导出成功！');
+  };
 
   const columns = [
     { title: '订单号', dataIndex: 'id', key: 'id', width: 150 },
@@ -77,7 +102,18 @@ const OrderList: React.FC = () => {
 
   return (
     <div>
-      <Card title="订单列表">
+      <Card 
+        title="订单列表"
+        extra={
+          <Button 
+            type="primary" 
+            icon={<DownloadOutlined />} 
+            onClick={handleExport}
+          >
+            导出 Excel
+          </Button>
+        }
+      >
         <Table columns={columns} dataSource={data} rowKey="id" />
       </Card>
 
